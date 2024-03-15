@@ -16,9 +16,4 @@ const Post = sequelize.define('Post', {
   content: DataTypes.TEXT
 });
 
-void (async () => {
-  await sequelize.sync({ force: true });
-  // Code here
-})();
-
 export default Post;

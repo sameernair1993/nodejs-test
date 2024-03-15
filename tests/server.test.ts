@@ -2,7 +2,7 @@
 import request from 'supertest';
 import { type Express } from 'express';
 import { Sequelize } from 'sequelize';
-import { getExpressApp, setupRouter } from '../src/server';
+import { getExpressApp } from '../src/server';
 import { connectToDatabase, synchronize } from '../src/database';
 
 jest.mock('sequelize');
@@ -10,7 +10,6 @@ jest.mock('sequelize');
 describe('Test base route', () => {
   let seqAuthenticateSpy: jest.SpyInstance;
   let seqSyncSpy: jest.SpyInstance;
-  setupRouter();
   const app: Express = getExpressApp();
 
   beforeAll(() => {
