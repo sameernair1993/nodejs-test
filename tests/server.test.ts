@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import request from 'supertest';
+import { type Express } from 'express';
 import { Sequelize } from 'sequelize';
 import { getExpressApp, setupRouter } from '../src/server';
 import { connectToDatabase, synchronize } from '../src/database';
@@ -10,7 +11,7 @@ describe('Test base route', () => {
   let seqAuthenticateSpy: jest.SpyInstance;
   let seqSyncSpy: jest.SpyInstance;
   setupRouter();
-  const app = getExpressApp();
+  const app: Express = getExpressApp();
 
   beforeAll(() => {
     seqAuthenticateSpy = jest.spyOn(Sequelize.prototype, 'authenticate');
@@ -26,7 +27,7 @@ describe('Test base route', () => {
     seqAuthenticateSpy.mockResolvedValueOnce(true);
     await synchronize();
     await connectToDatabase();
-    const response = await request(app).get('/');
+    const response = await request(app).get('/api');
     expect(seqAuthenticateSpy).toHaveBeenCalled();
     expect(seqSyncSpy).toHaveBeenCalled();
     expect(response.statusCode).toBe(200);

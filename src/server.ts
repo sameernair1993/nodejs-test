@@ -7,7 +7,7 @@ const app: Express = express();
 
 export const setupRouter = () => {
   // mount routes
-  app.use(router);
+  app.use('/api', router);
 }
 
 const startServer = () => {

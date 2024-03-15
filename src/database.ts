@@ -21,4 +21,6 @@ export const synchronize = async () => {
   } catch (error) {
     console.log('Error synchronizing: ', error);
   }
-}
+};
+
+export const getDatabaseContext = () => sequelize;
