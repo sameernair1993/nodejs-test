@@ -9,7 +9,12 @@ describe('Testing post routes', () => {
 
   it('Should return all the posts', async () => {
     const response = await request(app).get('/api/posts');
-    expect(response.statusCode).toBe(200);
-    expect(response).toBe(posts);
+    expect(response.status).toBe(200);
+    expect(response.body.data).toBe(posts);
+  });
+
+  it('Should create a post', async () => {
+    const response = await request(app).post('/api/posts').send({ title: 'Post2', content: 'About post 2' });
+    expect(response.status).toBe(201);
   });
 });

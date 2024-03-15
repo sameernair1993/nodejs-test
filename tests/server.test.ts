@@ -16,6 +16,8 @@ describe('Test base route', () => {
   beforeAll(() => {
     seqAuthenticateSpy = jest.spyOn(Sequelize.prototype, 'authenticate');
     seqSyncSpy = jest.spyOn(Sequelize.prototype, 'sync');
+    seqSyncSpy.mockResolvedValueOnce(true);
+    seqAuthenticateSpy.mockResolvedValueOnce(true);
   });
 
   afterAll(() => {
@@ -23,8 +25,6 @@ describe('Test base route', () => {
     seqSyncSpy.mockRestore();
   });
   it('Should return 200 response code for base route', async () => {
-    seqSyncSpy.mockResolvedValueOnce(true);
-    seqAuthenticateSpy.mockResolvedValueOnce(true);
     await synchronize();
     await connectToDatabase();
     const response = await request(app).get('/api');
