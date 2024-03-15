@@ -1,7 +1,9 @@
-import dotenv from 'dotenv';
-import app from './server';
-dotenv.config();
+import { bootstrap } from './server';
 
-app.listen(() => {
-  console.log(`Server running on port: ${process.env.PORT}`);
-});
+bootstrap()
+  .then(() => {
+    console.log('Server running');
+  })
+  .catch((error) => {
+    console.log('Error starting server: ', error);
+  })
