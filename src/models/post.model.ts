@@ -13,7 +13,8 @@ const Post = sequelize.define('Post', {
     type: DataTypes.STRING,
     unique: true
   },
-  content: DataTypes.TEXT
+  content: DataTypes.TEXT,
+  createdBy: DataTypes.STRING
 });
 
 export default Post;

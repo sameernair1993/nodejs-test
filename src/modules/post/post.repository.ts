@@ -5,7 +5,11 @@ export const findAll = async () => {
 };
 
 export const create = async (data) => {
-  return await Post.create({ title: data.title, content: data.content });
+  return await Post.create({
+    title: data.title,
+    content: data.content,
+    createdBy: data.createdBy
+  });
 };
 
 export const findByTitle = async (title: string) => {

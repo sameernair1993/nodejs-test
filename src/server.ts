@@ -9,9 +9,8 @@ const app: Express = express();
 app.use(express.json({}));
 app.use(express.urlencoded({ extended: true }));
 
-app.use(errorHandler);
-
 app.use('/api', router);
+app.use(errorHandler);
 
 const startServer = () => {
   app.listen(configuration.port, () => {
