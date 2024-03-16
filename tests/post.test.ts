@@ -104,4 +104,19 @@ describe('Testing post routes', () => {
     });
     expect(response.status).toBe(403);
   })
+
+  it('Should delete a post', async () => {
+    const response = await request(app).delete("/api/posts/:postId?createdBy='sameer.nair@gmail.com'");
+    expect(response.status).toBe(204);
+  });
+
+  it('Should throw an error if user is not the same as post owner', async () => {
+    const response = await request(app).delete("/api/posts/:postId?createdBy='sameer.nair@gmail.com'");
+    expect(response.status).toBe(403);
+  });
+
+  it('Should throw an error if post not found', async () => {
+    const response = await request(app).delete("/api/posts/:postId?createdBy='sameer.nair@gmail.com'");
+    expect(response.status).toBe(400);
+  });
 });
