@@ -1,9 +1,15 @@
-import { findAll, create, findByTitle } from './post.repository';
+import {
+  findAll,
+  create,
+  findByTitle,
+  update,
+  findById
+} from './post.repository';
 import { createErrorObject } from '../../entities/response/error.response';
 
 export const listPosts = async () => {
   return await findAll();
-};
+}
 
 export const createPost = async (data) => {
   const title: string = data.title;
@@ -13,4 +19,21 @@ export const createPost = async (data) => {
   } else {
     return await create(data);
   }
+}
+
+export const updatePost = async (data) => {
+  const postId: number = data.id;
+  // Check if post exists with that id
+  const [existingPost] = await findById(postId);
+  const { dataValues } = existingPost || {};
+  // Check if the post exists
+  if (!dataValues?.id) {
+    throw createErrorObject(`Post with id ${postId} does not exist`, 404);
+  }
+  // Check if the user is same.
+  if (dataValues?.createdBy !== data.createdBy) {
+    throw createErrorObject('You do not have the rights to modify this post', 403);
+  }
+  await update(data);
+  return await findById(postId);
 }

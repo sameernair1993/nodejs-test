@@ -8,7 +8,7 @@
     "build": "npx tsc",
     "start:dev": "nodemon src/index.ts",
     "test": "jest",
-    "test:c": "jest --coverage"
+    "test:c": "jest --coverage --forceExit"
   },
   "author": "",
   "license": "ISC",

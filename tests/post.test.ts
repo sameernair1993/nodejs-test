@@ -56,6 +56,13 @@ describe('Testing post routes', () => {
   });
 
   it('Should update a post', async () => {
+    const post = {
+      dataValues: { ...posts[0] }
+    };
+    const findByIdResolver: any = Promise.resolve([post]);
+    jest.spyOn(postRepository, 'findById').mockImplementation(jest.fn(() => findByIdResolver));
+    const updateResolver: any = Promise.resolve(true);
+    jest.spyOn(postRepository, 'update').mockImplementation(jest.fn(() => updateResolver));
     const response = await request(app).put('/api/posts').send({
       id: posts[0].id,
       title: posts[0].title,
@@ -84,6 +91,11 @@ describe('Testing post routes', () => {
   });
 
   it('Should throw an error if another user is trying to update a different post', async () => {
+    const post = {
+      dataValues: { ...posts[0] }
+    };
+    const findByIdResolver: any = Promise.resolve([post]);
+    jest.spyOn(postRepository, 'findById').mockImplementation(jest.fn(() => findByIdResolver));
     const response = await request(app).put('/api/posts').send({
       id: posts[0].id,
       title: posts[0].title,
