@@ -3,7 +3,8 @@ import {
   create,
   findByTitle,
   update,
-  findById
+  findById,
+  remove
 } from './post.repository';
 import { createErrorObject } from '../../entities/response/error.response';
 
@@ -36,4 +37,16 @@ export const updatePost = async (data) => {
   }
   await update(data);
   return await findById(postId);
+}
+
+export const removePost = async (id: number, createdBy: string) => {
+  const [post] = await findById(id);
+  const { dataValues } = post || {};
+  if (!dataValues?.id) {
+    throw createErrorObject(`Post with id ${id} not found`, 404);
+  }
+  if (dataValues?.createdBy !== createdBy) {
+    throw createErrorObject('You do not have the rights to delete this post', 403);
+  }
+  await remove(id);
 }

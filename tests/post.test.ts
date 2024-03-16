@@ -106,17 +106,29 @@ describe('Testing post routes', () => {
   })
 
   it('Should delete a post', async () => {
-    const response = await request(app).delete("/api/posts/:postId?createdBy='sameer.nair@gmail.com'");
-    expect(response.status).toBe(204);
+    const post = {
+      dataValues: { ...posts[0] }
+    };
+    const findByIdResolver: any = Promise.resolve([post]);
+    jest.spyOn(postRepository, 'findById').mockImplementation(jest.fn(() => findByIdResolver));
+    const response = await request(app).delete('/api/posts/123?createdBy=sameer.nair@gmail.com');
+    expect(response.status).toBe(200);
   });
 
   it('Should throw an error if user is not the same as post owner', async () => {
-    const response = await request(app).delete("/api/posts/:postId?createdBy='sameer.nair@gmail.com'");
+    const post = {
+      dataValues: { ...posts[0] }
+    };
+    const findByIdResolver: any = Promise.resolve([post]);
+    jest.spyOn(postRepository, 'findById').mockImplementation(jest.fn(() => findByIdResolver));
+    const response = await request(app).delete('/api/posts/123?createdBy=test@gmail.com');
     expect(response.status).toBe(403);
   });
 
   it('Should throw an error if post not found', async () => {
-    const response = await request(app).delete("/api/posts/:postId?createdBy='sameer.nair@gmail.com'");
-    expect(response.status).toBe(400);
+    const resolver: any = Promise.resolve([]);
+    jest.spyOn(postRepository, 'findById').mockImplementation(jest.fn(() => resolver));
+    const response = await request(app).delete("/api/posts/125?createdBy='sameer.nair@gmail.com'");
+    expect(response.status).toBe(404);
   });
 });

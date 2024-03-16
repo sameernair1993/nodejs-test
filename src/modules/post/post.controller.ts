@@ -1,5 +1,5 @@
 import { type Request, type Response, type NextFunction } from 'express';
-import { listPosts, createPost, updatePost } from './post.service';
+import { listPosts, createPost, updatePost, removePost } from './post.service';
 
 export const getPosts = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -27,6 +27,18 @@ export const putPost = async (req: Request, res: Response, next: NextFunction): 
     res.status(200).json({ data: result });
   } catch (error) {
     console.log('Error updating post: ', error);
+    next(error);
+  }
+}
+
+export const deletePost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { createdBy } = req.query;
+    const { postId } = req.params;
+    await removePost(parseInt(postId), String(createdBy));
+    res.status(200).json({ data: 'Post deleted' });
+  } catch (error) {
+    console.log('Error deleting post: ', error);
     next(error);
   }
 }

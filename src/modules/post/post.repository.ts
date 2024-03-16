@@ -32,3 +32,9 @@ export const findById = async (id: number) => {
     where: { id }
   });
 }
+
+export const remove = async (id: number) => {
+  return await Post.destroy({
+    where: { id }
+  });
+}
